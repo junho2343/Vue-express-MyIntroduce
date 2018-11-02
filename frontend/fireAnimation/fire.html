@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		*{margin: 0;padding: 0;}
+	</style>
+</head>
+<body>
+	<canvas id="fire" width="700" height="500" style="border:1px solid black;background:#333"></canvas>
+	<script>
+		class App {
+		  constructor () {
+		  }
+		  getDate () {
+		    let date = new Date()
+		    return ((date.getFullear() + 1) + '').substring(2, 4)
+		  }
+		  resize () {
+		    let canvas = document.getElementById('fire')
+		    let width = window.innerWidth
+		    let height = window.innerHeight
+		    canvas.width = width
+		    canvas.height = height
+		  }
+		}
+		class fire extends App {
+			constructor () {
+				super()
+				this.resize()
+				window.onresize = () => {
+		  			this.resize()
+				}
+
+				this.canvas = document.getElementById("fire")
+				this.c = this.canvas.getContext("2d")
+
+				this.width = this.canvas.width
+				this.height = this.canvas.height
+
+				// 터지는 불꽃 수
+				this.max = 100
+
+				// 불꽃 크기
+				this.size = 100
+
+				this.fireDelay = 700
+
+				this.fireSet()
+
+			}
+			 async fireSet () {
+				while(true) {
+					// 불꽃 크기
+					const size = Math.random() * this.size + 50
+
+					// 불꽃터지는 count
+					const count = 0
+
+					// x, z
+					const x = Math.random() * this.width - size
+					const y = Math.random() * this.height - size
+
+					// 터지는 불꽃 방향, 거리, 색깔, 굵기
+					let direction = []
+					let spread = []
+					let color = []
+					let width = []
+					for (let i = 0; i < this.max; i++) {
+						direction.push( Math.random() * 360 )
+						spread.push( Math.random() * size )
+						color.push( `hsla( ${Math.random() * 360}, ${Math.random() * 100}%, 75% , 0.7 )` )
+						width.push( Math.random() * 3 )
+					}
+
+					// 불꽃놀이 사라지는 거리
+					const remove = Math.random() * 50
+
+					// 불꽃놀이간 딜레이
+					const time = Math.random() * this.fireDelay
+
+					// to array
+					const arr = {
+						size: size,
+						count: count,
+						x: x,
+						y: y,
+						direction: direction,
+						spread: spread,
+						color: color,
+						remove: remove,
+						width: width
+					}
+
+					// start
+					await this.delay( this.animation(arr), time )
+				}
+
+			}
+			delay (fn, time) {
+				return new Promise (resolve => {
+					setTimeout( () => { resolve( fn ) }, time )
+				})
+			}
+			animation (data) {
+
+				// fire
+				for (let i = 0; i < this.max; i++) {
+
+					// 거리 값
+					let temp
+
+					if( data.spread[i] > data.count ) { 
+						temp = data.count
+					}else {
+						temp = data.spread[i]
+					}
+
+					// 거리 값에서 삭제될 거리
+					let remove = ( temp - ( data.size - data.count ) / 2 ) < 0? 0 : ( temp - ( data.size - data.count ) / 2 )
+
+
+					this.c.save()
+					this.c.beginPath()
+
+					// add
+					this.c.strokeStyle = data.color[i];
+					this.c.lineWidth = data.width[i];
+					this.c.lineCap = 'round';
+					this.c.translate(data.x, data.y)
+
+					this.c.rotate( data.direction[i] * Math.PI / 180 )
+
+					this.c.moveTo( 0, 0 )
+					this.c.lineTo( temp, 0 )
+					this.c.stroke()
+				
+
+					// delete
+					this.c.beginPath()
+					this.c.strokeStyle = 'white';
+					this.c.lineWidth = 4
+					this.c.globalCompositeOperation = 'destination-out'
+					this.c.moveTo( 0, 0 )
+					this.c.lineTo( remove, 0 )
+					this.c.stroke()
+
+					if( data.count >= data.size ) {
+						this.c.lineTo(temp < 0? 0 : temp, 0 )
+						this.c.stroke()
+					}
+					this.c.globalCompositeOperation = 'source-over'
+					this.c.restore()
+				
+
+				}
+				// stop
+				if ( data.count >= data.size ) { 
+					return false 
+				}
+				let remove = data.size / 150
+				data.remove = data.remove - remove <= 0 ? 0 : data.remove - remove
+				data.count += 2
+
+
+				window.requestAnimationFrame( () => { this.animation(data) } )				
+			}
+		}		
+		new fire()
+		console.log(fire.getDate)
+		
+
+	</script>
+</body>
+</html>
