@@ -1,5 +1,5 @@
 # Title
-Introduce me and Modify my information with Vue.js https://mighty-wildwood-26814.herokuapp.com
+Introduce me and Modify my information with Vue.js https://junhoinfo.herokuapp.com/
 
 # Prerequisites
 Install Node.js
