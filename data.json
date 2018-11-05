@@ -23,9 +23,9 @@
             },
             "profile": {
                 "school": [
-                    "전곡 초등학교",
-                    "전농 중학교",
-                    "서울 디지텍 고등학교"
+                    "전곡 초등학교 졸업",
+                    "전농 중학교 졸업",
+                    "서울 디지텍 고등학교 졸업"
                 ],
                 "certificate": [
                     "정보처리기능사",
@@ -57,7 +57,8 @@
                     "서울 지방기능경기대회 은메달",
                     "전국기능경기대회 은메달",
                     "(주) 플레이오토 입사"
-                ]
+                ],
+                "2019": []
             }
         },
         "en": {
@@ -82,9 +83,9 @@
             },
             "profile": {
                 "school": [
-                    "Jeongok Elementary School",
-                    "Junnong Middle School",
-                    "Seoul Digitec High School"
+                    "Jeongok Elementary School Graduation",
+                    "Junnong Middle School Graduation",
+                    "Seoul Digitec High School Graduation"
                 ],
                 "certificate": [
                     "Information processing Functional engineer",
@@ -116,7 +117,8 @@
                     "Seoul Regional Function Competition a silver medal",
                     "Nationwide Function Competition a silver medal ",
                     "PLAYAUTO Company Join"
-                ]
+                ],
+                "2019": []
             }
         }
     },
